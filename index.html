@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1essvon Photobooth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <div id="screen-landing" class="screen active">
+            <svg class="hero-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.36863 2.83538C10.0212 2.31333 10.8358 2 11.671 2H12.329C13.1642 2 13.9788 2.31333 14.6314 2.83538L15.587 3.6H18C20.2091 3.6 22 5.39086 22 7.6V16.4C22 18.6091 20.2091 20.4 18 20.4H6C3.79086 20.4 2 18.6091 2 16.4V7.6C2 5.39086 3.79086 3.6 6 3.6H8.413L9.36863 2.83538ZM12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17ZM19 7C19.5523 7 20 6.55228 20 6C20 5.44772 19.5523 5 19 5C18.4477 5 18 5.44772 18 6C18 6.55228 18.4477 7 19 7Z" />
+            </svg>
+            <h1>COMPUTER SCIENCE BOOTH</h1>
+            <p> Capture Your Moments </p>
+            <button class="btn-start" onclick="navToApp()">START SYSTEM</button>
+        </div>
+
+        <div id="screen-app" class="screen">
+            <div class="header-bar">
+                <h2>Photobooth</h2>
+            </div>
+
+            <div class="content-grid">
+                <div class="camera-section">
+                    <div class="video-box">
+                        <div id="countdown-overlay">3</div>
+                        <video id="webcam" autoplay playsinline></video>
+                        <div class="flash" id="flash-effect"></div>
+                        <div class="counter-badge" id="counter">0 / 4</div>
+                    </div>
+
+                    <div class="controls-wrapper">
+                        <div class="filter-row">
+                            <button class="btn-filter active" onclick="applyFilter('none', this)">Normal</button>
+                            <button class="btn-filter" onclick="applyFilter('vintage', this)">Vintage</button>
+                            <button class="btn-filter" onclick="applyFilter('bw', this)">B&W</button>
+                            <button class="btn-filter" onclick="applyFilter('cool', this)">Cool</button>
+                        </div>
+                        
+                        <button class="btn-main-action" id="btn-snap" onclick="startCountdown()">📷 SNAP (4x)</button>
+                        
+                        <div class="sub-actions">
+                            <input type="file" id="file-input" hidden accept="image/*" onchange="handleFile(this)">
+                            <button class="btn-icon" onclick="document.getElementById('file-input').click()" title="Upload">📂</button>
+                            <button class="btn-icon" onclick="fullReset()" title="Reset">↺</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    
+                    <div class="layout-toggle">
+                        <button class="btn-layout active" onclick="changeLayout('zigzag', this)">⚡ ZigZag</button>
+                        <button class="btn-layout" onclick="changeLayout('strip', this)">目 Strip</button>
+                    </div>
+
+                    <div class="paper-strip" id="paper-area">
+                        <div class="korean-header">
+                            <span class="hangul-title">인생네컷</span>
+                            <span class="eng-subtitle">By : @1essvon </span>
+                        </div>
+
+                        <div class="deco-side-left">/// REC</div>
+                        <div class="deco-side-right">00:04:25</div>
+
+                        <div class="layout-container zigzag-mode" id="photo-container">
+                            <div class="row-wrapper">
+                                <div class="slot vertical-slot" id="slot-1"></div>
+                                <div class="slot horizontal-slot" id="slot-2"></div>
+                            </div>
+                            <div class="row-wrapper">
+                                <div class="slot horizontal-slot" id="slot-3"></div>
+                                <div class="slot vertical-slot" id="slot-4"></div>
+                            </div>
+                        </div>
+
+                        <div class="korean-footer">
+                            <div class="footer-content">
+                                <div id="date-text">DATE</div>
+                                <div id="custom-text-preview" style="font-size: 0.6rem; color: #64748b;">Enjoy Your Moments</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="custom-text-area">
+                        <input type="text" id="user-caption" placeholder="Tulis ucapan..." maxlength="25" oninput="updateFooterPreview(this.value)">
+                    </div>
+
+                    <div id="sticker-menu">
+                        <p>Decoration:</p>
+                        <div class="sticker-scroll" id="sticker-list"></div>
+                        <button onclick="removeAllStickers()" class="btn-clear">Clear Stickers</button>
+                    </div>
+
+                    <button class="btn-download" id="btn-dl" onclick="processDownload()" disabled>⬇ Download Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="cvs-temp" style="display:none;"></canvas>
+    <canvas id="cvs-final" style="display:none;"></canvas>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
